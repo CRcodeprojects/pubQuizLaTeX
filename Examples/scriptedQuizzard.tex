@@ -1,0 +1,43 @@
+\documentclass{pubQuiz}
+
+\begin{document}
+	\PubRound{Duck Quiz}[15] % Optional total round points
+		\begin{PubRules}
+			\item Quizzard is ALWAYS right
+		\end{PubRules}
+		\begin{PubCategory}{Ducks}	% Category name
+			<Turn off screens>	% Short comments for the host
+			\PubQ[When was the rubber ducky invented] % Question
+				[Late 19th century]	% Answer
+			\PubQ[Who made a lithograph called Sitting Ducks]
+				[Michael Bedard]
+			\PubQ[When was the Duck and cover film made?][1952]
+			\PubQ[What is Ducky in the Land before Time?]
+				[Saurolophus]
+			\PubQ[What is the duckiest search engine?][DuckDuckGo]
+		\end{PubCategory}
+		\begin{PubCategory}*		% Bonus category
+			{BONUS: Coin Toss}		% Category Name
+			[	INSTRUCTIONS: Quizzard will throw a coin. 
+				Players guess if it will land on heads or tails.
+				Players who guess wrong are out of the game.
+				The last participant gets a free beer.	] 
+		\end{PubCategory}
+		\begin{PubInstructions}
+			\item Get speakers for the next category
+		\end{PubInstructions}
+		\begin{PubCategory}|2|		% Number of columns
+			{Duck songs} 	% Category name
+			[We play 10 songs, write the title]	% Instructions
+			\PubQ[Track 1].[O Pato] % Answer inline on script
+			\PubQ[Track 2].[Rubber Duckie]
+			\PubQ[Track 3].[Disco Duck]
+			\PubQ[Track 4].[I want a new duck]
+			\PubQ[Track 5].[Disco Alert]
+			\PubQ[Track 6].[Duck the Halls]
+			\PubQ[Track 7].[Five Little Ducks]
+			\PubQ[Track 8].[Duck Duck Goose]
+			\PubQ[Track 9].[Duck Tales]
+			\PubQ[Track 10].[Sitting Ducks]
+		\end{PubCategory}
+\end{document}
