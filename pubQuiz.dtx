@@ -22,7 +22,7 @@
 %</driver>
 %<class>\NeedsTeXFormat{LaTeX2e}[2023-11-01]
 %<class>\ProvidesClass{pubQuiz}
-%<*class>[2025-06-23 v1.0 A class for generating Pub Quiz scripts and answer sheets]
+%<*class>[2025-06-29 v1.0.1 A class for generating Pub Quiz scripts and answer sheets]
 %</class>
 
 
@@ -48,6 +48,7 @@
 \RequirePackage{listings}
 \RequirePackage{tikz}
 \RequirePackage[export]{adjustbox}
+\RequirePackage[columns=2]{idxlayout}
 
 \begin{document}
 	\DocInput{pubQuiz.dtx}
@@ -59,8 +60,8 @@
 %
 % \GetFileInfo{pubQuiz.dtx}
 % \def\filename{pubQuiz}
-% \def\fileversion{v1.0}
-% \def\filedate{2025-06-27}
+% \def\fileversion{v1.0.1}
+% \def\filedate{2025-06-29}
 %
 %	\DoNotIndex{\DeclareOption,\RequirePackage,\PassOptionsToClass,\CurrentOption,\ProcessOptions,\relax,\LoadClass,\maketitle,\par,\PubInstructions,\vspace}
 %	\DoNotIndex{\newif,\else,\fi,\begin,\end,\foreach,\includegraphics,\item,\let,\makeatletter,\makeatother,\NewDocumentEnvironment,}
@@ -89,6 +90,9 @@
 %			to generate a script for the host of the event.
 % 	\end{abstract}
 %
+%	\tableofcontents
+%	\clearpage
+%
 % 	\section{Examples}
 %		 \lstset{
 %			language=TeX,
@@ -114,20 +118,23 @@
 %			Quizzard wants the Name the Song category to show the answers in 4 columns.
 %
 %			Luckily, Quizzard has been using \LaTeX for a long time, and he has just discovered the \texttt{PubQuiz} class, which seems well-suited for the task.
-%			The main commands to use for created answer sheets only are:
+%			The main commands for making answer sheets are:		\changes{v1.0.1}{2025-06-29}{Edited for clarity}
 %			\begin{itemize}
 %				\item \texttt{$\backslash$PubRound}: prints the Team Name space, the Score box (optional: with the points available), and the Round title
 %				\item \texttt{$\backslash$PubCat}: prints the answer lines for a category. By default, it prints 5 answer lines in a single column,
-%					but it allows for Bonus categories, multiple columns, and other number of questions.
+%					but it allows for Bonus categories, multiple columns, and other numbers of questions.
 %			\end{itemize}
+%			 \changes{v1.0.1}{2025-06-29}{Added bonus category clarification}
+%			In Bonus categories, the answer sheet will have the category title with no answer lines.
 %
 %			With this information, Quizzard creates their first \texttt{pubQuiz} document:
 %			\lstinputlisting{./Examples/unscriptedQuizzard.tex}
-%			Quizzard looks at the compiled answer sheet, and is happy to have completed their task:
+%			Quizzard looks at the compiled answer sheet, and is happy with the outcome:
 %			\begin{center}
-%				\includegraphics[width=0.75\textwidth,frame]{./Examples/unscriptedQuizzard}
+%				\includegraphics[width=\textwidth,frame]{./Examples/unscriptedQuizzard}
 %			\end{center}
 %
+%		\clearpage
 %		\subsection{A scripted example}
 %			Quizzard's assistant has taken a vacation, so Quizzard will have to plan this week's Pub Quiz alone.
 %			That means writing a script with questions and answers, as well as the answer sheets. 
@@ -146,14 +153,15 @@
 %				\item \texttt{$\backslash$PubRound}: prints the Team Name space, the Score box (optional: with the points available), and the Round title.
 %				\item Environment \texttt{PubCategory}: prints the category title (with some extra details), questions given as in an \texttt{enumerate} environment.
 %						The environment allows for Bonus categories, multiple columns, category instructions, and some host notes.
-%				\item \texttt{$\backslash$PubQ}: for giving a question and its answer. A dot between question an answer prints inline in the host script.
+%				\item \texttt{$\backslash$PubQ}: for giving a question and its answer. A dot between question and answer prints them inline in the host script.
 %			\end{itemize}
+%			As before, Bonus categories in the answer sheet will have the category title with no answer lines.
 %			
 %			With this information, Quizzard creates their first \texttt{pubQuiz} scripted sheet:
 %				\lstinputlisting{./Examples/scriptedQuizzard.tex}
 %			Quizzard looks at the compiled output and gets this answer sheet
 %			\begin{center}
-%				\includegraphics[width=0.7\textwidth,frame]{./Examples/scriptedQuizzard}
+%				\includegraphics[width=\textwidth,frame]{./Examples/scriptedQuizzard}
 %			\end{center}
 %			To produce the host script, Quizzard gives the \texttt{host} option to the class.
 %				\lstinputlisting{./Examples/scriptedQuizzardHost.tex}
@@ -172,13 +180,13 @@
 %				\lstinputlisting{./Examples/pictureQuizzard.tex}
 %			Quizzard looks at the compiled output and gets this answer sheet
 %			\begin{center}
-%				\includegraphics[width=0.9\textwidth,frame]{./Examples/pictureQuizzard}
+%				\includegraphics[width=\textwidth,frame]{./Examples/pictureQuizzard}
 %			\end{center}
 %			To produce the host script, Quizzard gives the \texttt{host} option to the class.
 %				\lstinputlisting{./Examples/pictureQuizzardHost.tex}
 %			The compiled output then becomes a host script
 %			\begin{center}
-%				\includegraphics[width=0.9\textwidth,frame]{./Examples/pictureQuizzardHost}
+%				\includegraphics[width=0.95\textwidth,frame]{./Examples/pictureQuizzardHost}
 %			\end{center}
 %			
 %
@@ -281,7 +289,14 @@
 %
 %			\DescribeEnv{PubCategory}
 %			For scripted pubQuiz documents, the corresponding environment is \texttt{PubCategory}.
-%			The environment accepts the following paramenters:
+%			 \changes{v1.0.1}{2025-06-29}{Added PubCategory environment with ordered parameters}
+%				\begin{center}
+%					$\backslash$begin\{\texttt{PubCategory}\} * $\vert$\texttt{number\_columns}$\vert$ \{\texttt{category\_name}\} $<$\texttt{host\_notes}$>$
+%						[\texttt{host\_instructions}] \\
+%						\ldots \\
+%					$\backslash$end\{\texttt{PubCategory}\}
+%				\end{center}
+%			The environment accepts the following parameters:
 %				\begin{itemize}
 %					\item The star is an optional argument which signals a bonus category.
 %						If it is given, no spaces to answer will be printed in the answer sheet.
@@ -299,7 +314,14 @@
 %			\DescribeEnv{PubSubcategory}
 %			Scripted \texttt{pubQuiz} documents also allow for the inclusion of subcategories with the 
 %				command \texttt{$\backslash$PubSubcategory}.
-%			The environment accepts the following paramenters:
+%			 \changes{v1.0.1}{2025-06-29}{Added PubSubcategory environment with ordered parameters}
+%				\begin{center}
+%					$\backslash$begin\{\texttt{PubSubcategory}\} * $\vert$\texttt{number\_columns}$\vert$ \{\texttt{category\_name}\} $<$\texttt{host\_notes}$>$
+%						[\texttt{host\_instructions}] \\
+%						\ldots \\
+%					$\backslash$end\{\texttt{PubSubcategory}\}
+%				\end{center}
+%			The environment accepts the following parameters:
 %				\begin{itemize}
 %					\item The star is an optional argument which signals a bonus category.
 %						If it is given, no spaces to answer will be printed in the answer sheet.
@@ -313,8 +335,9 @@
 %					\item The optional parameter \texttt{host\_instructions} allows for longer category instructions on the host script.
 %						The notes are printed before the questions in the subcategory, using the standard text format.
 %				\end{itemize}
-%			Note that the usage and parameters of \texttt{$\backslash$PubSubcategory} are identical to those of 
-%				\texttt{PubCategory}.
+%			 \changes{v1.0.1}{2025-06-29}{Added clarification on the difference between  \texttt{$\backslash$PubCategory} and  \texttt{$\backslash$PubSubcategory}}
+%			Note that the parameters of \texttt{$\backslash$PubSubcategory} are identical to those of 
+%				\texttt{PubCategory}. However, \texttt{$\backslash$PubSubcategory} must be nested within a \texttt{$\backslash$PubCategory} environment.
 %
 %
 %		\subsection{Creating Questions}
@@ -364,6 +387,8 @@
 			\DeclareOption{host}{\pubQuiz@Hosttrue}
 			\DeclareOption{nohost}{\pubQuiz@Hostfalse}
 %    \end{macrocode}
+%	\changes{v1.0.1}{2025-06-29}{Added \texttt{answers}/\texttt{noanswers} switch description}
+%	\DescribeClassOption{answers} \DescribeClassOption{noanswers} Switch to include (or not include) answers in the Host script.
 %    \begin{macrocode}
 		\newif\ifpubQuiz@Answers
 			\pubQuiz@Answerstrue
@@ -611,8 +636,9 @@
 %
 %	\begin{environment}{PubCategory}
 % 		The environment \texttt{PubCategory} prints a Category in both the host script and the answer sheets.
+%			 \changes{v1.0.1}{2025-06-29}{\texttt{PubCategory} parameter corrected}
 % 		\begin{center}
-%			$\backslash$PubCategory * $\vert$number\_columns$\vert$ \{category\_name\} <host\_notes> [host\_instructions]
+%			$\backslash$PubCategory * $\vert$number\_columns$\vert$ \{category\_name\} $<$host\_notes$>$ [host\_instructions]
 %		\end{center}
 %		\begin{itemize}
 %			\item The optional stars indicates a bonus category.
@@ -683,8 +709,9 @@
 %
 %	\begin{environment}{PubSubcategory}
 % 		The environment \texttt{PubSubcategory} prints a Subcategory in both the host script and the answer sheets.
+%		 \changes{v1.0.1}{2025-06-29}{\texttt{PubSubcategory} parameter corrected}
 % 		\begin{center}
-%			$\backslash$PubSubcategory * $\vert$number\_columns$\vert$ \{category\_name\} <host\_notes> [host\_instructions]
+%			$\backslash$PubSubcategory * $\vert$number\_columns$\vert$ \{category\_name\} $<$host\_notes$>$ [host\_instructions]
 %		\end{center}
 %		\begin{itemize}
 %			\item The optional stars indicates a bonus category.
@@ -783,7 +810,7 @@
 %    \end{macrocode}
 % 	\end{macro}
 %
-% 	\begin{macro}{\PubQ}
+% 	\begin{macro}{\PubQPic}
 %		The user-command \texttt{$\backslash$PubQPic} prints a picture question.
 %		In the answer sheet, it prints the image and an answer line below it.
 %		In the host script, it only prints the question number and the answer (if it is given and the \texttt{printanswers} switch is active).
@@ -818,6 +845,9 @@
 		\makeatother
 %    \end{macrocode}
 %
+%\PrintChanges
+%\PrintIndex
+
 % \Finale
 %	\typeout{**************************************************}
 % 	\typeout{*}
