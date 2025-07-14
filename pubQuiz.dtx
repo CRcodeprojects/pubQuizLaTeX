@@ -60,8 +60,8 @@
 %
 % \GetFileInfo{pubQuiz.dtx}
 % \def\filename{pubQuiz}
-% \def\fileversion{v1.0.1}
-% \def\filedate{2025-06-29}
+% \def\fileversion{v1.0.2}
+% \def\filedate{2025-07-14}
 %
 %	\DoNotIndex{\DeclareOption,\RequirePackage,\PassOptionsToClass,\CurrentOption,\ProcessOptions,\relax,\LoadClass,\maketitle,\par,\PubInstructions,\vspace}
 %	\DoNotIndex{\newif,\else,\fi,\begin,\end,\foreach,\includegraphics,\item,\let,\makeatletter,\makeatother,\NewDocumentEnvironment,}
@@ -449,11 +449,12 @@
 %    \end{macrocode}
 %	Definition of image size settings from Picture Questions
 %	 \DoNotIndex{\pubQuiz@Pixwidth,\pubQuiz@Pixheight,\newlength,\setlength}
+% 	\changes{v1.0.2}{2026-07-14}{Adjusted $\backslash$pubQuiz@Pixwidth and $\backslash$pubQuiz@Pixheight to be dependent on $\backslash$textwidth and $\backslash$textheight}
 %    \begin{macrocode}
 		\newlength{\pubQuiz@Pixwidth}
 		\newlength{\pubQuiz@Pixheight}
-		\setlength{\pubQuiz@Pixheight}{60bp}
-		\setlength{\pubQuiz@Pixwidth}{115bp}
+		\setlength{\pubQuiz@Pixheight}{0.1\textheight}
+		\setlength{\pubQuiz@Pixwidth}{0.125\textwidth}
 %    \end{macrocode}
 %    \begin{macrocode}
 		\makeatletter
@@ -468,8 +469,9 @@
 %		The command has no impact on answer sheets.
 %
 %		The code below the environment allows this environment to be hidden in answer sheets.
+% 	\changes{v1.0.2}{2026-07-14}{Added missing empty parameter brackets}
 %    \begin{macrocode}
-		\NewDocumentEnvironment{PubRules}{	
+		\NewDocumentEnvironment{PubRules}{}{	
 			%\maketitle
 			\subsection*{\textsc{The Rules:} \hfill}
 			\begin{enumerate}
@@ -486,8 +488,10 @@
 %		The command has no impact on answer sheets.
 %
 %		The code below the environment allows this environment to be hidden in answer sheets.
+% 	\changes{v1.0.2}{2026-07-14}{Added missing empty parameter brackets}
 %    \begin{macrocode}
-		\NewDocumentEnvironment{PubInstructions}{	
+		\NewDocumentEnvironment{PubInstructions}{}{	
+		
 			\vspace{3mm}
 			\subsection*{\textsc{Instructions:} \hfill}
 			\begin{itemize}
@@ -821,6 +825,8 @@
 %			\item The location of an image file should be given as a mandatory argument.
 %			\item The answer to the question is then given as an optional argument. 
 %		\end{itemize}
+% 		\changes{v1.0.2}{2026-07-14}{Added minipage around images}
+%		The minipage ensures that all images use the same vertical space in the page, regardless of dimensions.
 %    \begin{macrocode}
 		\NewDocumentCommand\PubQPic{m o}{
 			\item \ifpubQuiz@Host
@@ -828,11 +834,14 @@
 						 #2 
 					\fi
 			\else  \hfill%
-				\includegraphics[
-					keepaspectratio=true,
-					width=\pubQuiz@Pixwidth,
-					height=\pubQuiz@Pixheight,
-					valign=t]{#1} 
+				\begin{minipage}[c][\pubQuiz@Pixheight][c]{\pubQuiz@Pixwidth}
+					\centering
+					\includegraphics[
+						keepaspectratio=true,
+						width=\pubQuiz@Pixwidth,
+						height=\pubQuiz@Pixheight,
+						valign=t]{#1} 
+				\end{minipage}
 				\hspace*{\fill} 
 	
 				\vspace{6mm}

@@ -74,10 +74,10 @@
 \setlength{\columnsep}{5pt}
 \newlength{\pubQuiz@Pixwidth}
 \newlength{\pubQuiz@Pixheight}
-\setlength{\pubQuiz@Pixheight}{60bp}
-\setlength{\pubQuiz@Pixwidth}{115bp}
+\setlength{\pubQuiz@Pixheight}{0.1\textheight}
+\setlength{\pubQuiz@Pixwidth}{0.125\textwidth}
 \makeatletter
-\newenvironment{PubRules}{ 
+\NewDocumentEnvironment{PubRules}{}{ 
 \subsection*{\textsc{The Rules:} \hfill}
 \begin{enumerate}
 }{ \end{enumerate}\par }
@@ -85,7 +85,8 @@
   \let\PubRules\pubQuiz@Hide
    \let\endPubRules\endpubQuiz@Hide
 \fi
-\newenvironment{PubInstructions}{ 
+\NewDocumentEnvironment{PubInstructions}{}{ 
+
 \vspace{3mm}
 \subsection*{\textsc{Instructions:} \hfill}
 \begin{itemize}
@@ -219,11 +220,14 @@ Team name:\enspace\hrulefill
  #2
 \fi
 \else  \hfill%
+\begin{minipage}[c][\pubQuiz@Pixheight][c]{\pubQuiz@Pixwidth}
+\centering
 \includegraphics[
 keepaspectratio=true,
 width=\pubQuiz@Pixwidth,
 height=\pubQuiz@Pixheight,
 valign=t]{#1}
+\end{minipage}
 \hspace*{\fill}
 
 \vspace{6mm}
@@ -231,6 +235,7 @@ valign=t]{#1}
 \fi
 }
 \makeatother
+
 \endinput
 %%
 %% End of file `pubQuiz.cls'.
